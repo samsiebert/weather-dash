@@ -1,0 +1,59 @@
+body {
+    font-family:Arial, Helvetica, sans-serif
+}
+
+h1 {
+    background-color: darkblue;
+    color: whitesmoke;
+    margin: 5px;
+    padding: 5px;
+    font-size: 32px;;
+    display: flex;
+    justify-content: center;
+}
+
+h2 {
+    font-size: 22px;
+    font-weight: bold;
+    
+}
+
+p {
+    font-size: 16px;
+    padding: 10px;
+
+}
+
+.button {
+    background-color: darkblue;
+    color: whitesmoke;
+    width: 125px;
+    margin: 10px 10px 10px 0;
+    padding-left: 8px;
+    border-radius: 5px;
+}
+
+.city {
+    background-color: grey;
+    color: whitesmoke;
+    width: 175px;
+    margin: 10px 10px 10px 0;
+    padding-left: 8px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+
+#weather-today {
+    height: 300px;
+    border: solid black;
+    margin: 10px;
+}
+
+#five-days {
+    margin: 10px;
+}
+
+#search-form {
+    padding: 25px;
+}

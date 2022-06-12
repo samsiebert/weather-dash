@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <title>Weather Dashboard</title>
+</head>
+<body>
+    <header> 
+        <h1>Weather Dashboard</h1>
+    </header>
+    <div id="main-body" class="d-flex">
+        <div id="left-col" class="col col-3">
+            <form id="search-form" class="border-bottom border-secondary">
+                <h2>Search for a city:</h2>
+                <input type="text" id="city-search" name="city-search" placeholder="San Diego"><br>
+                <input class="button" type="subtmit" value="submit">
+            </form>
+            <div id="saved-cities">
+
+            </div>
+        </div>
+        <div id="right-col" class="col-9">
+            <div id="weather-today">
+                <h2 id="city-date"></h2>
+                <p id="temp"></p>
+                <p id="wind"></p>
+                <p id="humidity"></p>
+                <p id="uv-index"></p>
+            </div>
+            <div id="forecast">
+                <h2>5-Day Forecast:</h2>
+                <div id="five-days">
+                    <div id="day-1"></div>
+                    <div id="day-2"></div>
+                    <div id="day-3"></div>
+                    <div id="day-4"></div>
+                    <div id="day-5"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="./assets/js/script.js"></script>
+</body>
+</html>

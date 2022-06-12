@@ -17,7 +17,7 @@
             <form id="search-form" class="border-bottom border-secondary">
                 <h2>Search for a city:</h2>
                 <input type="text" id="city-search" name="city-search" placeholder="San Diego"><br>
-                <input class="button" type="subtmit" value="submit">
+                <button id="submit-city" class="button" type="subtmit" value="submit">Find City</button>
             </form>
             <div id="saved-cities">
 
@@ -43,7 +43,9 @@
             </div>
         </div>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
+    <script src="https://unpkg.com/dayjs@1.8.21/dayjs.min.js"></script>
+    <script>dayjs().format()</script>
     <script src="./assets/js/script.js"></script>
 </body>
 </html>

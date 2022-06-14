@@ -7,13 +7,13 @@ h1 {
     color: whitesmoke;
     margin: 5px;
     padding: 5px;
-    font-size: 32px;;
+    font-size: 36px;;
     display: flex;
     justify-content: center;
 }
 
 h2 {
-    font-size: 22px;
+    font-size: 26px;
     font-weight: bold;
     
 }
@@ -43,15 +43,36 @@ p {
     text-align: center;
 }
 
+.one-day-container {
+    background-color: darkblue;
+    color: whitesmoke;
+    width: 20%;
+    height: 90%;
+    padding: 7px;
+    margin: 7px;
+    text-align: left;
+}
+
 
 #weather-today {
     height: 300px;
     border: solid black;
     margin: 10px;
+    padding: 5px;
 }
 
 #five-days {
     margin: 10px;
+    padding: 10px;
+    height: 300px;
+    display: flex;
+    justify-content: space-between;
+    border: hidden;
+
+}
+
+#five-forecast {
+    margin: 15px;
 }
 
 #search-form {

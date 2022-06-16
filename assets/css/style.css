@@ -3,7 +3,7 @@ body {
 }
 
 h1 {
-    background-color: darkblue;
+    background-color: rgb(55, 55, 204);
     color: whitesmoke;
     margin: 5px;
     padding: 5px;
@@ -25,7 +25,7 @@ p {
 }
 
 .button {
-    background-color: darkblue;
+    background-color: rgb(55, 55, 204);
     color: whitesmoke;
     width: 125px;
     margin: 10px 10px 10px 0;
@@ -44,16 +44,47 @@ p {
 }
 
 .one-day-container {
-    background-color: darkblue;
+    background-color: rgb(55, 55, 204);
     color: whitesmoke;
     width: 20%;
-    height: 90%;
+    height: 350px;
     padding: 7px;
     margin: 7px;
     text-align: left;
 }
+.icon {
+    width: 80px;
+    height: 80px;
+}
+
+.red {
+    background-color: red;
+}
+
+.green {
+    background-color: green;
+}
+
+.yellow {
+    background-color: yellow;
+    color: black
+}
+
+#uv-index {
+    border-radius: 4px;
+    width: 100px;
+}
 
 
+#cloud-icon {
+    width: 50px;
+    height: 50px;
+}
+
+#section-title {
+    display: flex;
+    align-items: flex-end;
+}
 #weather-today {
     height: 300px;
     border: solid black;
@@ -77,4 +108,10 @@ p {
 
 #search-form {
     padding: 25px;
+}
+
+#saved-cities {
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
 }

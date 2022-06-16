@@ -5,29 +5,32 @@ var cityName = "";
 var lat = "";
 var lon = "";
 var fiveDayArr = [];
-var saveBtn =
+var buttonIdCounter = 0;
 
+// runs when searhc for city button pressed
 var cityFormHandler = function() {
     event.preventDefault();
     cityName = cityInputEl.value.trim();
+
+    // converts city name to usable long/lat values
     var geocodeUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + cityName + "&limit=1&appid=a74391bcfbdf1e9827d65a7e2e76f024"
     fetch(geocodeUrl).then(function(response) {
         response.json().then(function(data) {
             lat = data[0].lat;
             lon= data[0].lon;
+
+            //runs weather api function for one day and five day forecasts
             getTodaysWeather();
-            getFiveDayWeather();
+            getFiveDayWeather();    
+            
+            // runs function that store long/lat in local storage and creates corresponding button
+            saveCity(data, cityName);
+
+    
         });
     });
 
-    var savedCitiesContainerEl = document.querySelector("#saved-cities");
-    var saveBtn = document.createElement("button");
-    saveBtn.textContent= "Save this city?";
-    saveBtn.setAttribute("id", "save-btn");
-    saveBtn.classList.add("button");
-    savedCitiesContainerEl.appendChild(saveBtn);
-
-
+    //clear input area for city search
     cityInputEl.value = "";
 };
 
@@ -40,13 +43,17 @@ var getTodaysWeather = function() {
         var weather = data;
         console.log(weather);
 
-        var todaysClouds = weather.current.clouds;
+
+        //storing weather data from api
+        var todaysWeather = weather.current.weather[0].icon;
         var todaysTemp = weather.current.temp;
         var todaysWind = weather.current.wind_speed;
         var todaysHumidity = weather.current.humidity;
         var todaysUvi = weather.current.uvi;
-
-        printToday(todaysTemp, todaysWind, todaysHumidity, todaysUvi, todaysClouds);
+        
+            // console.log(todaysWeather);
+        //sending stored data to function that will print to screen
+        printToday(todaysTemp, todaysWind, todaysHumidity, todaysUvi, todaysWeather );
 
 
         });
@@ -59,10 +66,12 @@ var getFiveDayWeather = function() {
         response.json().then(function(data) {
         var weather = data;
 
+        //storing weather data from api
         for (var i = 0; i < 5; i++) {
-            date = date ++;
+            date = dayjs().add(i + 1, 'day').format("MM/DD/YYYY");
             var fiveDayObj = {
                 date: date,
+                weather: weather.daily[i].weather[0].icon,
                 temp: weather.daily[i].temp.day,
                 wind: weather.daily[i].wind_speed,
                 humidity: weather.daily[i].humidity
@@ -71,36 +80,70 @@ var getFiveDayWeather = function() {
             fiveDayArr.push(fiveDayObj);
         };
         console.log(fiveDayArr);
+        // document.getElementById("#five-days").innerHTML = "";
+
+        //sending stored data to function that will print to screen
         printFiveDay(fiveDayArr);
         });
     });
 };
 
-var printToday = function(temp, wind, humidity, uvi, clouds) {
+var printToday = function(temp, wind, humidity, uvi, weather) {
+    //accessing points on screen where data will be printed
     var weatherTodayTitleEl = document.querySelector("#city-date");
     var todaysTempEl = document.querySelector("#temp");
     var todaysWindEl = document.querySelector("#wind");
     var todaysHumidityEl = document.querySelector("#humidity");
     var todaysUvEl = document.querySelector("#uv-index");
+    var iconContainerEl = document.querySelector("#cloud-icon");
 
+    //printing data to screen
     weatherTodayTitleEl.textContent = cityName + " (" + date + ")";
     todaysTempEl.textContent = "Temp: " + temp + "F";
     todaysWindEl.textContent = "Wind Speed: " + wind + "mph";
     todaysHumidityEl.textContent = "Humidity: " + humidity + "%";
     todaysUvEl.textContent = "UVI: " + uvi;
 
+    //changing uvi icon color depending on index favorability
+    if (uvi > 0 & uvi < 3) {
+        todaysUvEl.classList.add("green");
+    } else if ( uvi > 3 & uvi < 8) {
+        todaysUvEl.classList.add("yellow")
+    } else {
+        todaysUvEl.classList.add("red")
+    };
 
 
-//     console.log("The current temp is: " + temp + "F");
-//     console.log("The current wind speed is: " + wind + "mph");
-//     console.log("The current humidity is: " + humidity + "%");
-//     console.log("The current UVI is: " + uvi + "uvi");
+    //adding corresponding weather icon
+    var icon = weather;
+    if (icon = "01d") {
+            iconContainerEl.setAttribute("src", "./assets/images/01d.png")
+        } else if (icon = "02d") {
+            iconContainerEl.setAttribute("src", "./assets/images/02d.png");
+        } else if (icon = "03d") {
+            iconContainerEl.setAttribute("src", "./assets/images/03d.png");
+        } else if (icon = "04d") {
+            iconContainerEl.setAttribute("src", "./assets/images/04d.png");
+        } else if (icon = "09d") {
+            iconContainerEl.setAttribute("src", "./assets/images/09d.png");
+        } else if (icon = "10d") {
+            iconContainerEl.setAttribute("src", "./assets/images/10d.png");
+        } else if (icon = "11d") {
+            iconContainerEl.setAttribute("src", "./assets/images/11d.png");
+        } else if (icon = "13d") {
+            iconContainerEl.setAttribute("src", "./assets/images/13d.png");
+        } else if (icon = "50d") {
+            iconContainerEl.setAttribute("src", "./assets/images/50d.png");
+        } else {
+            iconContainerEl.setAttribute("src", "");
+        };
  };
 
 var printFiveDay = function(fiveDayArr) {
     var fiveDayTitleEl = document.querySelector("#five-forecast");
     fiveDayTitleEl.textContent = "Five Day Forecast: "
 
+    //movoing through array of stored weather data and creating forecast day boxes
     for (var i = 0; i < fiveDayArr.length; i ++) {
         var fiveDayContainerEl = document.querySelector("#five-days");
         var oneDayContainerEl = document.createElement("div");
@@ -111,6 +154,35 @@ var printFiveDay = function(fiveDayArr) {
         oneDayDateEl.textContent =  fiveDayArr[i].date;
         oneDayDateEl.classList.add("city-date");
         oneDayContainerEl.appendChild(oneDayDateEl);
+
+        var oneDayIconEl = document.createElement("img");
+        oneDayIconEl.classList.add("icon");
+        oneDayContainerEl.appendChild(oneDayIconEl);
+
+        //adding corresponding weather icon
+        var icon = fiveDayArr[i].weather;
+        if (icon = "01d") {
+                oneDayIconEl.setAttribute("src", "./assets/images/01d.png")
+            } else if (icon = "02d") {
+                oneDayIconEl.setAttribute("src", "./assets/images/02d.png");
+            } else if (icon = "03d") {
+                oneDayIconEl.setAttribute("src", "./assets/images/03d.png");
+            } else if (icon = "04d") {
+                oneDayIconEl.setAttribute("src", "./assets/images/04d.png");
+            } else if (icon = "09d") {
+                oneDayIconEl.setAttribute("src", "./assets/images/09d.png");
+            } else if (icon = "10d") {
+                oneDayIconEl.setAttribute("src", "./assets/images/10d.png");
+            } else if (icon = "11d") {
+                oneDayIconEl.setAttribute("src", "./assets/images/11d.png");
+            } else if (icon = "13d") {
+                oneDayIconEl.setAttribute("src", "./assets/images/13d.png");
+            } else if (icon = "50d") {
+                oneDayIconEl.setAttribute("src", "./assets/images/50d.png");
+            } else {
+                oneDayIconEl.setAttribute("src", "");
+            };
+      
 
         var oneDayTempEl = document.createElement("p");
         oneDayTempEl.textContent = "Temp: " + fiveDayArr[i].temp + "F";
@@ -126,8 +198,40 @@ var printFiveDay = function(fiveDayArr) {
     };
 };
 
-var saveCity = function() {
-  console.log("button worked");
+
+
+var saveCity = function(data, cityName) {
+  var savedLat =  data[0].lat;
+  var savedLon = data[0].lon;
+  var savedCity = cityName;
+
+  var savedCitiesArr = [
+      {
+          city: savedCity,
+          lat: savedLat,
+          lon: savedLon
+      }
+  ];
+
+  localStorage.setItem("savedCities", JSON.stringify(savedCitiesArr));
+    console.log(localStorage);
+  
+    localStorage.getItem("savedCities");
+    
+  var savedCitiesContainerEl = document.querySelector("#saved-cities");
+
+  var savedCityBtnEl = document.createElement("button");
+    savedCityBtnEl.textContent = savedCity;
+    savedCityBtnEl.classList.add("saved-city");
+    savedCityBtnEl.setAttribute("data-button-id", buttonIdCounter)
+    savedCitiesContainerEl.appendChild(savedCityBtnEl);
+
+    buttonIdCounter++;
+
+    localStorage.setItem("savedCities", JSON.stringify(savedCitiesArr));
+    console.log(localStorage);
+  
+    localStorage.getItem("savedCities");
 };
 
 cityFormEl.addEventListener("submit", cityFormHandler);

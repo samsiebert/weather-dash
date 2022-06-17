@@ -24,7 +24,7 @@ var cityFormHandler = function() {
             getFiveDayWeather();    
             
             // runs function that store long/lat in local storage and creates corresponding button
-            // saveCity(data, cityName);
+            saveCity(data, cityName);
 
     
         });
@@ -38,7 +38,9 @@ var cityFormHandler = function() {
 
 var getTodaysWeather = function() {
     var apiUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&exclude=minutely,hourly,alerts&units=imperial&appid=a74391bcfbdf1e9827d65a7e2e76f024";
-    fetch(apiUrl).then(function(response) {
+    fetch(apiUrl)
+    
+    .then(function(response) {
         response.json().then(function(data) {
         var weather = data;
         // console.log(weather);
@@ -57,17 +59,21 @@ var getTodaysWeather = function() {
 
 
         });
+    })
+
+    .catch(function(error) {
+        alert("Unable to connect to Weather Map");
     });
 };
 
 var getFiveDayWeather = function() {
     var apiUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&exclude=minutely,hourly,alerts&units=imperial&appid=a74391bcfbdf1e9827d65a7e2e76f024";
-    fetch(apiUrl).then(function(response) {
-        response.json().then(function(data) {
-        var weather = data;
-        var fiveDayArr = [];
-
-
+    fetch(apiUrl)
+    
+        .then(function(response) {
+            response.json().then(function(data) {
+            var weather = data;
+            var fiveDayArr = [];
         //storing weather data from api
         for (var i = 0; i < 5; i++) {
             date = dayjs().add(i + 1, 'day').format("MM/DD/YYYY");
@@ -87,6 +93,10 @@ var getFiveDayWeather = function() {
         //sending stored data to function that will print to screen
         printFiveDay(fiveDayArr);
         });
+    })
+
+    .catch(function(error) {
+        alert("Unable to connect to Weather Map");
     });
 };
 
@@ -118,7 +128,6 @@ var printToday = function(temp, wind, humidity, uvi, weather) {
 
     //adding corresponding weather icon
     var icon = weather;
-    console.log(icon);
     if (icon === "01d"|| icon === "01n") {
             iconContainerEl.setAttribute("src", "./assets/images/01d.png")
         } else if (icon === "02d" || icon === "02n") {
@@ -167,7 +176,6 @@ var printFiveDay = function(fiveDayArr) {
 
         //adding corresponding weather icon
         var icon = fiveDayArr[i].weather;
-        console.log(icon)
         if (icon === "01d"|| icon === "01n") {
                 oneDayIconEl.setAttribute("src", "./assets/images/01d.png")
             } else if (icon === "02d"|| icon === "02n") {
@@ -207,47 +215,47 @@ var printFiveDay = function(fiveDayArr) {
 
 
 
-// var saveCity = function(data, cityName) {
-//   var savedLat =  data[0].lat;
-//   var savedLon = data[0].lon;
-//   var savedCity = cityName;
+var saveCity = function(data, cityName) {
+  var savedLat =  data[0].lat;
+  var savedLon = data[0].lon;
+  var savedCity = cityName;
 
-//   var savedCitiesArr = [];
+  var savedCitiesArr = [];
 
-//   var savedCityObj = {
-//     city: savedCity,
-//     lat: savedLat,
-//     lon: savedLon
-//     };
+  var savedCityObj = {
+    city: savedCity,
+    lat: savedLat,
+    lon: savedLon
+    };
 
-//     savedCitiesArr.push(savedCityObj);
+    savedCitiesArr.push(savedCityObj);
 
-//     localStorage.setItem("savedCities", JSON.stringify(savedCitiesArr));
+    localStorage.setItem("savedCities", JSON.stringify(savedCitiesArr));
   
-//     loadCities();
-// };
+    loadCities();
+};
 
-// var loadCities = function() {
+var loadCities = function() {
 
-//     localStorage.getItem("savedCities");
+    localStorage.getItem("savedCities");
     
 
 
-//   var savedCitiesContainerEl = document.querySelector("#saved-cities");
+  var savedCitiesContainerEl = document.querySelector("#saved-cities");
 
-//   var savedCityBtnEl = document.createElement("button");
-//     savedCityBtnEl.textContent = savedCity;
-//     savedCityBtnEl.classList.add("saved-city");
-//     savedCityBtnEl.setAttribute("data-button-id", buttonIdCounter)
-//     savedCitiesContainerEl.appendChild(savedCityBtnEl);
+  var savedCityBtnEl = document.createElement("button");
+    savedCityBtnEl.textContent = savedCity;
+    savedCityBtnEl.classList.add("saved-city");
+    savedCityBtnEl.setAttribute("data-button-id", buttonIdCounter)
+    savedCitiesContainerEl.appendChild(savedCityBtnEl);
 
-//     buttonIdCounter++;
+    buttonIdCounter++;
 
-//     localStorage.setItem("savedCities", JSON.stringify(savedCitiesArr));
-//     console.log(localStorage);
+    localStorage.setItem("savedCities", JSON.stringify(savedCitiesArr));
+    console.log(localStorage);
   
     
-// };
+};
 
 cityFormEl.addEventListener("submit", cityFormHandler);
 

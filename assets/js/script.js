@@ -5,6 +5,8 @@ var cityName = "";
 var lat = "";
 var lon = "";
 var buttonIdCounter = 0;
+var citiesArr = [];
+var savedCitiesContainerEl = document.querySelector("#saved-cities");
 
 
 // runs when searhc for city button pressed
@@ -20,8 +22,8 @@ var cityFormHandler = function() {
             lon= data[0].lon;
 
             //runs weather api function for one day and five day forecasts
-            getTodaysWeather();
-            getFiveDayWeather();    
+            getTodaysWeather(lat, lon);
+            getFiveDayWeather(lat, lon);    
             
             // runs function that store long/lat in local storage and creates corresponding button
             saveCity(data, cityName);
@@ -39,7 +41,7 @@ var cityFormHandler = function() {
 
 
 
-var getTodaysWeather = function() {
+var getTodaysWeather = function(lat, lon) {
     var apiUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&exclude=minutely,hourly,alerts&units=imperial&appid=a74391bcfbdf1e9827d65a7e2e76f024";
     fetch(apiUrl)
     
@@ -69,7 +71,7 @@ var getTodaysWeather = function() {
     });
 };
 
-var getFiveDayWeather = function() {
+var getFiveDayWeather = function(lat, lon) {
     var apiUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&exclude=minutely,hourly,alerts&units=imperial&appid=a74391bcfbdf1e9827d65a7e2e76f024";
     fetch(apiUrl)
     
@@ -223,7 +225,6 @@ var saveCity = function(data, cityName) {
   var savedLon = data[0].lon;
   var savedCity = cityName;
 
-  var savedCitiesArr = [];
 
   var savedCityObj = {
     city: savedCity,
@@ -231,34 +232,57 @@ var saveCity = function(data, cityName) {
     lon: savedLon
     };
 
-    savedCitiesArr.push(savedCityObj);
+    citiesArr.push(savedCityObj);
 
-    localStorage.setItem("savedCities", JSON.stringify(savedCitiesArr));
+    localStorage.setItem("savedCities", JSON.stringify(citiesArr));
   
     loadCities();
 };
 
 var loadCities = function() {
+    var savedCitiesContainerEl = document.querySelector("#saved-cities");
+    savedCitiesContainerEl.innerHTML = "";
+    var savedCities = localStorage.getItem("savedCities");
 
-    localStorage.getItem("savedCities");
-    
+    if (!savedCities) {
+        return false;
+    }
 
+    savedCities = JSON.parse(savedCities);
 
-  var savedCitiesContainerEl = document.querySelector("#saved-cities");
+    for (var i = 0; i < savedCities.length; i++) {
+         var savedCitiesContainerEl = document.querySelector("#saved-cities");
 
-  var savedCityBtnEl = document.createElement("button");
-    savedCityBtnEl.textContent = savedCity;
-    savedCityBtnEl.classList.add("saved-city");
-    savedCityBtnEl.setAttribute("data-button-id", buttonIdCounter)
-    savedCitiesContainerEl.appendChild(savedCityBtnEl);
+        var savedCityBtnEl = document.createElement("button");
+        savedCityBtnEl.textContent = savedCities[i].city;
+        savedCityBtnEl.classList.add("saved-city");
+        savedCityBtnEl.setAttribute("id", buttonIdCounter)
+        savedCitiesContainerEl.appendChild(savedCityBtnEl);
 
     buttonIdCounter++;
-
-    localStorage.setItem("savedCities", JSON.stringify(savedCitiesArr));
-    console.log(localStorage);
+    };
   
     
 };
 
+var getSavedWeather = function(event) {
+
+    var savedCities = localStorage.getItem("savedCities");
+    savedCities = JSON.parse(savedCities);
+
+    var id = event.target.id;
+    var i = id;
+ 
+    lat = savedCities[i].lat;
+    lon = savedCities[i].lon;
+    cityName = savedCities[i].city;
+
+    getTodaysWeather(lat, lon);
+    getFiveDayWeather(lat, lon);
+};
+
+loadCities();
 cityFormEl.addEventListener("submit", cityFormHandler);
+var savedCitiesContainerEl = document.querySelector("#saved-cities");
+savedCitiesContainerEl.addEventListener("click", getSavedWeather);
 

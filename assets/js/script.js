@@ -28,6 +28,9 @@ var cityFormHandler = function() {
 
     
         });
+    })
+    .catch(function(error) {
+        alert("Unable to connect to Weather Map");
     });
 
     //clear input area for city search

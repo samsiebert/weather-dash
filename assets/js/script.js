@@ -6,6 +6,7 @@ var lat = "";
 var lon = "";
 var fiveDayArr = [];
 var buttonIdCounter = 0;
+var fiveDays = $("#five-days");
 
 // runs when searhc for city button pressed
 var cityFormHandler = function() {
@@ -24,7 +25,7 @@ var cityFormHandler = function() {
             getFiveDayWeather();    
             
             // runs function that store long/lat in local storage and creates corresponding button
-            saveCity(data, cityName);
+            // saveCity(data, cityName);
 
     
         });
@@ -143,7 +144,15 @@ var printFiveDay = function(fiveDayArr) {
     var fiveDayTitleEl = document.querySelector("#five-forecast");
     fiveDayTitleEl.textContent = "Five Day Forecast: "
 
-    //movoing through array of stored weather data and creating forecast day boxes
+    // var fiveDaysDiv = document.getElementById("#five-days");
+    // if (fiveDaysDiv.child) {
+    //     fiveDaysDiv.removeChild(fiveDaysDiv.firstChild);
+    //     fiveDaysDiv.removeChild(fiveDaysDiv.firstChild);
+    //     fiveDaysDiv.removeChild(fiveDaysDiv.firstChild);
+    //     fiveDaysDiv.removeChild(fiveDaysDiv.firstChild);
+    //     fiveDaysDiv.removeChild(fiveDaysDiv.firstChild);
+    // };
+    //moving through array of stored weather data and creating forecast day boxes
     for (var i = 0; i < fiveDayArr.length; i ++) {
         var fiveDayContainerEl = document.querySelector("#five-days");
         var oneDayContainerEl = document.createElement("div");
@@ -200,39 +209,48 @@ var printFiveDay = function(fiveDayArr) {
 
 
 
-var saveCity = function(data, cityName) {
-  var savedLat =  data[0].lat;
-  var savedLon = data[0].lon;
-  var savedCity = cityName;
+// var saveCity = function(data, cityName) {
+//   var savedLat =  data[0].lat;
+//   var savedLon = data[0].lon;
+//   var savedCity = cityName;
 
-  var savedCitiesArr = [
-      {
-          city: savedCity,
-          lat: savedLat,
-          lon: savedLon
-      }
-  ];
+//   var savedCitiesArr = [];
 
-  localStorage.setItem("savedCities", JSON.stringify(savedCitiesArr));
-    console.log(localStorage);
+//   var savedCityObj = {
+//     city: savedCity,
+//     lat: savedLat,
+//     lon: savedLon
+//     };
+
+//     savedCitiesArr.push(savedCityObj);
+
+//     localStorage.setItem("savedCities", JSON.stringify(savedCitiesArr));
   
-    localStorage.getItem("savedCities");
+//     loadCities();
+// };
+
+// var loadCities = function() {
+
+//     localStorage.getItem("savedCities");
+
+
+
     
-  var savedCitiesContainerEl = document.querySelector("#saved-cities");
+//   var savedCitiesContainerEl = document.querySelector("#saved-cities");
 
-  var savedCityBtnEl = document.createElement("button");
-    savedCityBtnEl.textContent = savedCity;
-    savedCityBtnEl.classList.add("saved-city");
-    savedCityBtnEl.setAttribute("data-button-id", buttonIdCounter)
-    savedCitiesContainerEl.appendChild(savedCityBtnEl);
+//   var savedCityBtnEl = document.createElement("button");
+//     savedCityBtnEl.textContent = savedCity;
+//     savedCityBtnEl.classList.add("saved-city");
+//     savedCityBtnEl.setAttribute("data-button-id", buttonIdCounter)
+//     savedCitiesContainerEl.appendChild(savedCityBtnEl);
 
-    buttonIdCounter++;
+//     buttonIdCounter++;
 
-    localStorage.setItem("savedCities", JSON.stringify(savedCitiesArr));
-    console.log(localStorage);
+//     localStorage.setItem("savedCities", JSON.stringify(savedCitiesArr));
+//     console.log(localStorage);
   
-    localStorage.getItem("savedCities");
-};
+//     localStorage.getItem("savedCities");
+// };
 
 cityFormEl.addEventListener("submit", cityFormHandler);
 

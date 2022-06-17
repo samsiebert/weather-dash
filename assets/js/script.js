@@ -4,9 +4,8 @@ var date = dayjs().format("MM/DD/YYYY");
 var cityName = "";
 var lat = "";
 var lon = "";
-var fiveDayArr = [];
 var buttonIdCounter = 0;
-var fiveDays = $("#five-days");
+
 
 // runs when searhc for city button pressed
 var cityFormHandler = function() {
@@ -42,7 +41,7 @@ var getTodaysWeather = function() {
     fetch(apiUrl).then(function(response) {
         response.json().then(function(data) {
         var weather = data;
-        console.log(weather);
+        // console.log(weather);
 
 
         //storing weather data from api
@@ -66,6 +65,8 @@ var getFiveDayWeather = function() {
     fetch(apiUrl).then(function(response) {
         response.json().then(function(data) {
         var weather = data;
+        var fiveDayArr = [];
+
 
         //storing weather data from api
         for (var i = 0; i < 5; i++) {
@@ -80,7 +81,7 @@ var getFiveDayWeather = function() {
 
             fiveDayArr.push(fiveDayObj);
         };
-        console.log(fiveDayArr);
+        // console.log(fiveDayArr);
         // document.getElementById("#five-days").innerHTML = "";
 
         //sending stored data to function that will print to screen
@@ -117,23 +118,24 @@ var printToday = function(temp, wind, humidity, uvi, weather) {
 
     //adding corresponding weather icon
     var icon = weather;
-    if (icon = "01d") {
+    console.log(icon);
+    if (icon === "01d"|| icon === "01n") {
             iconContainerEl.setAttribute("src", "./assets/images/01d.png")
-        } else if (icon = "02d") {
+        } else if (icon === "02d" || icon === "02n") {
             iconContainerEl.setAttribute("src", "./assets/images/02d.png");
-        } else if (icon = "03d") {
+        } else if (icon === "03d"|| icon === "03n") {
             iconContainerEl.setAttribute("src", "./assets/images/03d.png");
-        } else if (icon = "04d") {
+        } else if (icon === "04d"|| icon === "04n") {
             iconContainerEl.setAttribute("src", "./assets/images/04d.png");
-        } else if (icon = "09d") {
+        } else if (icon === "09d"|| icon === "09n") {
             iconContainerEl.setAttribute("src", "./assets/images/09d.png");
-        } else if (icon = "10d") {
+        } else if (icon === "10d"|| icon === "10n") {
             iconContainerEl.setAttribute("src", "./assets/images/10d.png");
-        } else if (icon = "11d") {
+        } else if (icon === "11d"|| icon === "11n") {
             iconContainerEl.setAttribute("src", "./assets/images/11d.png");
-        } else if (icon = "13d") {
+        } else if (icon === "13d"|| icon === "13n") {
             iconContainerEl.setAttribute("src", "./assets/images/13d.png");
-        } else if (icon = "50d") {
+        } else if (icon === "50d"|| icon === "50n") {
             iconContainerEl.setAttribute("src", "./assets/images/50d.png");
         } else {
             iconContainerEl.setAttribute("src", "");
@@ -144,17 +146,12 @@ var printFiveDay = function(fiveDayArr) {
     var fiveDayTitleEl = document.querySelector("#five-forecast");
     fiveDayTitleEl.textContent = "Five Day Forecast: "
 
-    // var fiveDaysDiv = document.getElementById("#five-days");
-    // if (fiveDaysDiv.child) {
-    //     fiveDaysDiv.removeChild(fiveDaysDiv.firstChild);
-    //     fiveDaysDiv.removeChild(fiveDaysDiv.firstChild);
-    //     fiveDaysDiv.removeChild(fiveDaysDiv.firstChild);
-    //     fiveDaysDiv.removeChild(fiveDaysDiv.firstChild);
-    //     fiveDaysDiv.removeChild(fiveDaysDiv.firstChild);
-    // };
+    var fiveDayContainerEl = document.querySelector("#five-days");
+    fiveDayContainerEl.innerHTML = "";
+    
     //moving through array of stored weather data and creating forecast day boxes
     for (var i = 0; i < fiveDayArr.length; i ++) {
-        var fiveDayContainerEl = document.querySelector("#five-days");
+       
         var oneDayContainerEl = document.createElement("div");
         oneDayContainerEl.classList.add("one-day-container");
         fiveDayContainerEl.appendChild(oneDayContainerEl);
@@ -170,23 +167,24 @@ var printFiveDay = function(fiveDayArr) {
 
         //adding corresponding weather icon
         var icon = fiveDayArr[i].weather;
-        if (icon = "01d") {
+        console.log(icon)
+        if (icon === "01d"|| icon === "01n") {
                 oneDayIconEl.setAttribute("src", "./assets/images/01d.png")
-            } else if (icon = "02d") {
+            } else if (icon === "02d"|| icon === "02n") {
                 oneDayIconEl.setAttribute("src", "./assets/images/02d.png");
-            } else if (icon = "03d") {
+            } else if (icon === "03d"|| icon === "03n") {
                 oneDayIconEl.setAttribute("src", "./assets/images/03d.png");
-            } else if (icon = "04d") {
+            } else if (icon = "04d" || icon === "04n") {
                 oneDayIconEl.setAttribute("src", "./assets/images/04d.png");
-            } else if (icon = "09d") {
+            } else if (icon = "09d" || icon === "05n") {
                 oneDayIconEl.setAttribute("src", "./assets/images/09d.png");
-            } else if (icon = "10d") {
+            } else if (icon = "10d" || icon === "10n") {
                 oneDayIconEl.setAttribute("src", "./assets/images/10d.png");
-            } else if (icon = "11d") {
+            } else if (icon = "11d" || icon === "11n") {
                 oneDayIconEl.setAttribute("src", "./assets/images/11d.png");
-            } else if (icon = "13d") {
+            } else if (icon = "13d" || icon === "13n") {
                 oneDayIconEl.setAttribute("src", "./assets/images/13d.png");
-            } else if (icon = "50d") {
+            } else if (icon = "50d" || icon === "50n") {
                 oneDayIconEl.setAttribute("src", "./assets/images/50d.png");
             } else {
                 oneDayIconEl.setAttribute("src", "");

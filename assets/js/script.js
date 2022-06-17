@@ -24,7 +24,7 @@ var cityFormHandler = function() {
             getFiveDayWeather();    
             
             // runs function that store long/lat in local storage and creates corresponding button
-            // saveCity(data, cityName);
+            saveCity(data, cityName);
 
     
         });
@@ -82,7 +82,7 @@ var getFiveDayWeather = function() {
             fiveDayArr.push(fiveDayObj);
         };
         // console.log(fiveDayArr);
-        // document.getElementById("#five-days").innerHTML = "";
+       
 
         //sending stored data to function that will print to screen
         printFiveDay(fiveDayArr);
@@ -207,48 +207,47 @@ var printFiveDay = function(fiveDayArr) {
 
 
 
-// var saveCity = function(data, cityName) {
-//   var savedLat =  data[0].lat;
-//   var savedLon = data[0].lon;
-//   var savedCity = cityName;
+var saveCity = function(data, cityName) {
+  var savedLat =  data[0].lat;
+  var savedLon = data[0].lon;
+  var savedCity = cityName;
 
-//   var savedCitiesArr = [];
+  var savedCitiesArr = [];
 
-//   var savedCityObj = {
-//     city: savedCity,
-//     lat: savedLat,
-//     lon: savedLon
-//     };
+  var savedCityObj = {
+    city: savedCity,
+    lat: savedLat,
+    lon: savedLon
+    };
 
-//     savedCitiesArr.push(savedCityObj);
+    savedCitiesArr.push(savedCityObj);
 
-//     localStorage.setItem("savedCities", JSON.stringify(savedCitiesArr));
+    localStorage.setItem("savedCities", JSON.stringify(savedCitiesArr));
   
-//     loadCities();
-// };
+    loadCities();
+};
 
-// var loadCities = function() {
+var loadCities = function() {
 
-//     localStorage.getItem("savedCities");
-
-
-
+    localStorage.getItem("savedCities");
     
-//   var savedCitiesContainerEl = document.querySelector("#saved-cities");
 
-//   var savedCityBtnEl = document.createElement("button");
-//     savedCityBtnEl.textContent = savedCity;
-//     savedCityBtnEl.classList.add("saved-city");
-//     savedCityBtnEl.setAttribute("data-button-id", buttonIdCounter)
-//     savedCitiesContainerEl.appendChild(savedCityBtnEl);
 
-//     buttonIdCounter++;
+  var savedCitiesContainerEl = document.querySelector("#saved-cities");
 
-//     localStorage.setItem("savedCities", JSON.stringify(savedCitiesArr));
-//     console.log(localStorage);
+  var savedCityBtnEl = document.createElement("button");
+    savedCityBtnEl.textContent = savedCity;
+    savedCityBtnEl.classList.add("saved-city");
+    savedCityBtnEl.setAttribute("data-button-id", buttonIdCounter)
+    savedCitiesContainerEl.appendChild(savedCityBtnEl);
+
+    buttonIdCounter++;
+
+    localStorage.setItem("savedCities", JSON.stringify(savedCitiesArr));
+    console.log(localStorage);
   
-//     localStorage.getItem("savedCities");
-// };
+    
+};
 
 cityFormEl.addEventListener("submit", cityFormHandler);
 
